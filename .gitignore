@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.Python
+
+# Entornos virtuales
+venv/
+env/
+ENV/
+
+# Bases de datos
+*.db
+*.sqlite
+*.sqlite3
+
+# Archivos de audio grandes
+*.mp3
+*.wav
+*.flac
+*.m4a
+
+# Dataset FMA 
+fma_small/
+fma_metadata/
+
+# Streamlit
+.streamlit/secrets.toml
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
