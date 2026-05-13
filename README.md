@@ -10,7 +10,3 @@ Moodify es un sistema de inteligencia artificial que recomienda música basándo
 - **Music_by_Emotion**: Clasificación de emociones musicales
 - **Free Music Archive (FMA)**: Dataset de audio
 
-### 1. Clonar el repositorio
-```bash
-git clone https://github.com/tu-usuario/moodify.git
-cd moodify
