@@ -45,20 +45,27 @@ def cargar_catalogo():
         }
     
     conn = sqlite3.connect(db_path)
-    query = "SELECT nombre_cancion, artista, emocion FROM canciones WHERE emocion IS NOT NULL"
+    query = "SELECT nombre_cancion, artista, emocion FROM canciones"
     df = pd.read_sql_query(query, conn)
     conn.close()
     
     if df.empty:
-        return {"demostracion": {"nombre": "No hay canciones", "artista": "Ejecuta preprocess_fma.py", "emocion": "alegria"}}
+        return {}
+    
+    # Mostrar diagnóstico en la consola (se ve cuando ejecutas localmente)
+    print(f"📊 Canciones cargadas: {len(df)}")
+    print(f"📊 Emociones encontradas: {df['emocion'].unique()}")
     
     # Convertir a diccionario
     catalogo = {}
     for idx, row in df.iterrows():
+        # Asegurarse de que emocion es string y no está vacío
+        emocion = str(row["emocion"]) if pd.notna(row["emocion"]) else "alegria"
+        
         catalogo[f"cancion_{idx}"] = {
-            "nombre": row["nombre_cancion"],
-            "artista": row["artista"],
-            "emocion": row["emocion"]
+            "nombre": str(row["nombre_cancion"]),
+            "artista": str(row["artista"]),
+            "emocion": emocion
         }
     
     return catalogo
@@ -71,18 +78,40 @@ def analizar_texto(texto, modelo):
     emocion_principal = resultados_ordenados[0]['label']
     return emocion_principal, resultados_ordenados
 
-#El mapeo de las emociones
-mapeo_texto_a_audio = {
-    "joy": "alegria", "excitement": "emocion", "amusement": "diverson",
-    "optimism": "optimismo", "love": "amor", "admiration": "admiracion",
-    "approval": "aprovacion", "gratitude": "agradecimiento", "pride": "orgullo",
-    "sadness": "tristeza", "disappointment": "deccepcion", "grief": "afliccion",
-    "embarrassment": "verguenza", "fear": "miedo", "remorse": "remordimiento",
-    "anger": "enojo", "nervousness": "nervios", "desire": "deseo",
-    "surprise": "sorpresa", "calm": "calma", "relief": "alivio",
-    "caring": "cariño", "realization": "realizacion", "neutral": "neutral"
-}
 
+mapeo_texto_a_audio = {
+    "joy": "diversion",
+    "excitement": "deseo",
+    "amusement": "diversion",
+    "optimism": "deseo",
+    "love": "admiración",
+    "admiration": "admiración",
+    "approval": "admiración",
+    "gratitude": "admiración",
+    "pride": "deseo",
+    "curiosity": "curiosidad",
+    "desire": "deseo",
+    "realization": "atencion",
+    
+    # TRISTEZA → mapear a "molestia", "disgusto", "enojo"
+    "sadness": "molestia",
+    "disappointment": "molestia",
+    "grief": "molestia",
+    "embarrassment": "disgusto",
+    "fear": "enojo",
+    "remorse": "molestia",
+    "nervousness": "enojo",
+    
+    # ENERGÍA → mapear a "enojo", "deseo"
+    "anger": "enojo",
+    "surprise": "deseo",
+    
+    # CALMA → mapear a "atencion", "curiosidad"
+    "calm": "atencion",
+    "relief": "atencion",
+    "caring": "atencion",
+    "neutral": "atencion",
+}
 #Se hace la interfaz para la pagina web
 st.title("🎵 Algoritmo de recomendacion")
 st.markdown("### Encuentra música que se alinee con tu estado de ánimo")
@@ -105,6 +134,8 @@ texto_usuario = st.text_area(
     height=100
 )
 analizar_usuario=texto_usuario
+
+
 
 if st.button("🎧 Recomiéndame música", type="primary"):
     
@@ -131,11 +162,16 @@ if st.button("🎧 Recomiéndame música", type="primary"):
     st.info(f"Busacndo cancion apropiada para  **{categoria_busqueda}**")
 
     st.subheader("lista de canciones: ")
+    st.write(f"🔍 Debug: Buscando {categoria_busqueda}")
+    st.write(f"🔍 Canciones en catálogo: {len(catalogo)}")
+    st.write(f"🔍 Emociones disponibles: {set([info['emocion'] for info in catalogo.values()])}")
+
 
     recomendaciones = []
     for cancion_id, info in catalogo.items():
         if info.get("emocion") == categoria_busqueda:
             recomendaciones.append(info)
+    st.write(f"🔍 Recomendaciones encontradas: {len(recomendaciones)}")  # Debug
     
     if recomendaciones:
         for rec in recomendaciones[:10]:
@@ -148,6 +184,7 @@ if st.button("🎧 Recomiéndame música", type="primary"):
     st.success(f"Se encontraron {len(recomendaciones)} canciones que coinciden con tu estado de ánimo.")
 else:
     st.warning("No encontramos canciones que coincidan con tu estado de ánimo en nuestro catálogo.")
+
 
 
 #Apartado para el pie de pagina
