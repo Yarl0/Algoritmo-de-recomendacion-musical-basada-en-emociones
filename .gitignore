@@ -35,3 +35,6 @@ fma_metadata/
 # Archivos de sistema
 .DS_Store
 Thumbs.db
+
+Diagnostico.py
+DiagnosticoMetadatos.py
