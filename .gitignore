@@ -10,7 +10,7 @@ env/
 ENV/
 
 # Bases de datos
-*.db
+#*.db
 *.sqlite
 *.sqlite3
 

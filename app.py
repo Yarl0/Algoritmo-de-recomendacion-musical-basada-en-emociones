@@ -89,11 +89,11 @@ st.markdown("### Encuentra música que se alinee con tu estado de ánimo")
 
 # Cargar modelo de texto
 modelo_texto = cargar_modelo_texto()
-st.success("✅ Modelo de inteligencia artificial cargado")
+st.success("Modelo de inteligencia artificial cargado")
 
 # Cargar catálogo de canciones
 catalogo = cargar_catalogo()
-st.info(f"📀 Catálogo disponible: {len(catalogo)} canciones")
+st.info(f"Catálogo disponible: {len(catalogo)} canciones")
 
 st.markdown("---")
 st.subheader("📝 ¿Cómo te sientes hoy?")
