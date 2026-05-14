@@ -25,26 +25,8 @@ def cargar_modelo_texto():
 #Con el modelo ya cargado, se carga ahora la base de datos
 @st.cache_data(ttl=3600)
 def cargar_catalogo():    
-    # Intentar diferentes rutas posibles para la base de datos
-    rutas_posibles = ["canciones.db", "../canciones.db", "data/canciones.db"]
-    db_path = None
-    
-    for ruta in rutas_posibles:
-        if Path(ruta).exists():
-            db_path = ruta
-            break
-    
-    if db_path is None:
-        # Si no existe la BD, usar datos de demostración
-        return {
-            "demostracion": {
-                "nombre": "Canciones de demostración",
-                "artista": "Ejemplo",
-                "emocion": "alegria"
-            }
-        }
-    
-    conn = sqlite3.connect(db_path)
+
+    conn = sqlite3.connect("canciones.db")
     query = "SELECT nombre_cancion, artista, emocion FROM canciones"
     df = pd.read_sql_query(query, conn)
     conn.close()
