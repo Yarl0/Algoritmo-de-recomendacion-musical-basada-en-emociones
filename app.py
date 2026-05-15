@@ -175,8 +175,7 @@ st.subheader("Su opinion es muy valiosa")
 col1, col2, col3, col4, col5 = st.columns(5)
 
 with col3:
-    if st.button("Dejar " \
-    "retroalimentación", use_container_width=True):
+    if st.button("Dejar opinión", use_container_width=True):
         # Abrir Google Forms en nueva pestaña
         import webbrowser
         webbrowser.open_new_tab("https://forms.gle/Y4TvY1jGqFSLauAm8")
