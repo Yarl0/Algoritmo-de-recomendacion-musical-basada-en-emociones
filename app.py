@@ -167,18 +167,6 @@ if st.button("🎧 Recomiéndame música", type="primary"):
 else:
     st.warning("No encontramos canciones que coincidan con tu estado de ánimo en nuestro catálogo.")
 
-#Feedback
-st.markdown("---")
-st.subheader("Por favor, de click al boton para que pueda realizar el formulario de retroalimentación")
-st.subheader("Su opinion es muy valiosa")
-
-col1, col2, col3, col4, col5 = st.columns(5)
-
-with col3:
-    if st.button("Dejar opinión", use_container_width=True):
-        # Abrir Google Forms en nueva pestaña
-        import webbrowser
-        webbrowser.open_new_tab("https://forms.gle/Y4TvY1jGqFSLauAm8")
 
 #Apartado para el pie de pagina
 st.markdown("---")
