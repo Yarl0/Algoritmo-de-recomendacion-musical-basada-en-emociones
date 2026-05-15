@@ -167,10 +167,22 @@ if st.button("🎧 Recomiéndame música", type="primary"):
 else:
     st.warning("No encontramos canciones que coincidan con tu estado de ánimo en nuestro catálogo.")
 
+#Feedback
+st.markdown("---")
+st.subheader("Por favor, de click al boton para que pueda realizar el formulario de retroalimentación")
+st.subheader("Su opinion es muy valiosa")
 
+col1, col2, col3, col4, col5 = st.columns(5)
+
+with col3:
+    if st.button("Dejar retroalimentación", use_container_width=True):
+        # Abrir Google Forms en nueva pestaña
+        import webbrowser
+        webbrowser.open_new_tab("https://forms.gle/Y4TvY1jGqFSLauAm8")
 
 #Apartado para el pie de pagina
 st.markdown("---")
+st.markdown("El sistema se limita a solo recomendar la musica, mas no reproducirla o distribuirla, se recomienda usar una aplicacion de streaming de preferencia")
 st.caption("La música es cortesía de Free Music Archive (FMA) - Uso académico bajo licencia CC BY-NC-SA")
 st.caption("Modelo multilingual usado: AnasAlokla/multilingual_go_emotions")
 st.caption("Modelo para el analisis de emociones usado: LaurenGurgiolo/Music_by_Emotion")
